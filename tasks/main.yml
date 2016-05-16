@@ -1,0 +1,11 @@
+---
+- hosts: servers
+
+- include: system-centos.yml tags=system
+  when: ansible_distribution == 'Centos'
+
+- include: docker-centos.yml tags=system
+  when: ansible_distribution == 'Centos'
+
+- include: helloworld.yml tags=system
+  when: ansible_distribution == 'Centos'

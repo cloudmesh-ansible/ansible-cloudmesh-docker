@@ -1,0 +1,20 @@
+---
+- hosts: servers
+
+  tasks:
+
+  - name: Upgrade all packages
+    become: yes
+    yum: name=* state=latest
+
+  - name: Install basic software
+    yum: pkg={{ item }} state=installed
+    become: yes
+    with_items:
+      - git
+
+  - name: Install emacs
+    yum: pkg={{ item }} state=installed
+    become: yes
+    with_items:
+      - emacs-nox

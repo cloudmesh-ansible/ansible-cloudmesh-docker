@@ -1,0 +1,38 @@
+---
+- hosts: servers
+
+  tasks:
+
+  - name: Install docker
+    shell: curl -sSL https://get.docker.com/ | sh
+    become: yes
+    args:
+      warn: no
+
+  - name: Allow cc to access docker
+    shell: usermod -aG docker cc
+    become: yes
+
+  - name: Enable docker service
+    service: name=docker enabled=yes
+    become: yes
+
+  - name: Start docker service
+    service: name=docker state=started
+    become: yes
+
+  - name: Test docker
+    shell: chkconfig docker on
+    become: yes
+    register: result
+
+  - name: Is docker running?
+    debug: var=result
+
+  - name: docker hello world
+    shell: docker run hello world
+    register: result
+
+  - name: result
+    debug: var=result
+
